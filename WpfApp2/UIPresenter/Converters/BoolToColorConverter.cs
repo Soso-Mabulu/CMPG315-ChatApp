@@ -1,0 +1,19 @@
+﻿using System;
+using System.Globalization;
+using System.Windows;
+
+namespace UI.UIPresenter.Converters
+{
+    public class BoolToColorBrushConverter : BaseValueConverter<BoolToColorBrushConverter>
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Application.Current.FindResource((bool)value ? "GrayBGHoverBrush" : "DarkBgBrush");
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

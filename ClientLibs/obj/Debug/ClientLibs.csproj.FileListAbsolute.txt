@@ -1,0 +1,34 @@
+C:\Users\Oleg\source\repos\Messenger\ClientLibs\bin\Debug\ClientLibs.dll
+C:\Users\Oleg\source\repos\Messenger\ClientLibs\bin\Debug\ClientLibs.pdb
+C:\Users\Oleg\source\repos\Messenger\ClientLibs\obj\Debug\ClientLibs.csprojAssemblyReference.cache
+C:\Users\Oleg\source\repos\Messenger\ClientLibs\obj\Debug\ClientLibs.csproj.CoreCompileInputs.cache
+C:\Users\Oleg\source\repos\Messenger\ClientLibs\obj\Debug\ClientLibs.dll
+C:\Users\Oleg\source\repos\Messenger\ClientLibs\obj\Debug\ClientLibs.pdb
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\ClientLibs.dll
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\ClientLibs.pdb
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\Common.dll
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\Dapper.dll
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\System.Data.SQLite.dll
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\Common.pdb
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\Dapper.xml
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\System.Data.SQLite.xml
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\bin\Debug\System.Data.SQLite.dll.config
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\obj\Debug\ClientLibs.csprojAssemblyReference.cache
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\obj\Debug\ClientLibs.csproj.CoreCompileInputs.cache
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\obj\Debug\ClientLibs.csproj.CopyComplete
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\obj\Debug\ClientLibs.dll
+C:\work\Visual studio\C#\OOP\Messenger\ClientLibs\obj\Debug\ClientLibs.pdb
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\ClientLibs.dll
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\ClientLibs.pdb
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\Common.dll
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\Dapper.dll
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\System.Data.SQLite.dll
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\Common.pdb
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\Dapper.xml
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\System.Data.SQLite.xml
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\bin\Debug\System.Data.SQLite.dll.config
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\obj\Debug\ClientLibs.csproj.AssemblyReference.cache
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\obj\Debug\ClientLibs.csproj.CoreCompileInputs.cache
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\obj\Debug\ClientLibs.csproj.Up2Date
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\obj\Debug\ClientLibs.dll
+C:\Users\solul\Source\Repos\Reply-messenger\ClientLibs\obj\Debug\ClientLibs.pdb

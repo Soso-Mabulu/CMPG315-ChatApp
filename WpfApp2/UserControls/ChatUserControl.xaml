@@ -1,0 +1,293 @@
+﻿<UserControl x:Class="UI.UserControls.ChatUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:local="clr-namespace:UI.UserControls"
+             xmlns:converters="clr-namespace:UI.UIPresenter.Converters"
+             xmlns:commands="clr-namespace:UI.UIPresenter.ViewModels.Commands"
+             xmlns:attachPropertis="clr-namespace:UI.UIPresenter.Attachment_Properties"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="974">
+    <Border Background="{StaticResource GrayBGBrush}" CornerRadius="10">
+
+        <Grid>
+
+            <!--Drag and Drop effect-->
+            <Border AllowDrop="True" Padding="10" Background="{StaticResource  GrayBGHoverBrush}" Panel.ZIndex="0" Opacity="0"
+                    BorderThickness="2"
+                    CornerRadius="10"
+                    BorderBrush="{StaticResource OrangeBrush}">
+
+                <Border.Triggers>
+
+                    <EventTrigger RoutedEvent="DragOver">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <Int32Animation Duration="0:0:0.05" Storyboard.TargetProperty="ZIndex" To="2"/>
+                                <DoubleAnimation Duration="0:0:0.05" Storyboard.TargetProperty="Opacity" To="1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    
+                    <EventTrigger RoutedEvent="DragLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.05" Storyboard.TargetProperty="Opacity" To="0"/>
+                                <Int32Animation Duration="0:0:0.05" Storyboard.TargetProperty="ZIndex" To="0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+
+                </Border.Triggers>
+                
+                <!--Text-->
+                <Border CornerRadius="10" Background="{StaticResource DarkBgBrush}">
+
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="0.5"/>
+                    </Border.Effect>
+                    
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                        <TextBlock Text="Drop Fi Hare"
+                               FontSize="26"
+                               HorizontalAlignment="Center"
+                               Margin="0 10"
+                               Foreground="{StaticResource OrangeBrush}"
+                               FontWeight="DemiBold"
+                               FontFamily="OpenSans"/>
+
+                        <TextBlock Text="To send them as a file"
+                               Foreground="{StaticResource OrangeBrush}"
+                               FontSize="26"
+                               FontFamily="OpenSans"/>
+
+
+                    </StackPanel>
+
+                </Border>
+            </Border>
+
+            <!--Content-->
+            <Grid>
+                <Grid.RowDefinitions>
+
+                    <!--Chat info bar-->
+                    <RowDefinition Height="Auto"/>
+
+                    <!--space for Message-->
+                    <RowDefinition Height="*"/>
+
+                    <!--Attachemnts-->
+                    <RowDefinition Height="Auto"/>
+                    
+                    <!--Bar for typing messages-->
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <!--Chat info bar-->
+                <Grid Grid.ColumnSpan="2" >
+                    <Border VerticalAlignment="Top"
+                        Margin="20 20 20 0"
+                        Height="45"
+                        Background="{StaticResource DarkBgBrush}"
+                        CornerRadius="7">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+
+                                <!--Photo circle-->
+                                <ColumnDefinition Width="auto"/>
+
+                                <!--User info-->
+                                <ColumnDefinition Width="*"/>
+
+                                <!--Buttons-->
+                                <ColumnDefinition Width="auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <!--Photo circle-->
+                            <Grid Margin="20 3 0 3">
+
+                                <Grid.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{x:Static commands:CommonCommands.OpenGroupInfo}"
+                                                  CommandParameter="{Binding CurrentChat}"/>
+                                </Grid.InputBindings>
+
+                                <!--Profile Photo and status-->
+                                <Border Width="30"
+                                        Name="Photo"
+                                    Height="30"
+                                    Background="{StaticResource DarkBgBrush}"
+                                    CornerRadius="20">
+
+                                    <Border.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{x:Static commands:CommonCommands.OpenGroupInfo}" CommandParameter="{Binding GroupData}"/>
+                                    </Border.InputBindings>
+
+                                    <Grid VerticalAlignment="Center"
+                                            Width="30"
+                                            Height="30"
+                                            HorizontalAlignment="Center">
+                                        <Grid.Clip>
+                                            <EllipseGeometry Center="15,15" RadiusX="15" RadiusY="15"/>
+                                        </Grid.Clip>
+                                        <Image Source="{Binding GroupPhoto}"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+
+                                    </Grid>
+
+                                </Border>
+
+
+                            </Grid>
+
+                            <!--User info-->
+                            <StackPanel Margin="20 3 0 3" Grid.Column="1" Orientation="Vertical">
+
+                                <!--User Name-->
+                                <Label Content="{Binding ChatName}"
+                                   Foreground="{StaticResource LightGrayBgBrush}"
+                                   FontWeight="DemiBold"
+                                   FontSize="13"/>
+
+                                <!--Last Time online-->
+                                <Label Content="{Binding UsersOnline, Converter={converters:IntToUsersOnlineConverter}}"
+                                   Margin="0 -10 0 0"
+                                   FontSize="10"
+                                   Foreground="{Binding UsersOnline, Converter={converters:UsersOnlineToColorConverter}}"/>
+
+                            </StackPanel>
+
+                            <!--Additional buttons-->
+                            <StackPanel Grid.Column="2" Margin="0 0 10 0" Orientation="Horizontal">
+
+                                <Button Content=""
+                                        ToolTip="Show invite list"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Black"
+                                        Command="{Binding InviteListButton}"
+                                        Visibility="{Binding IsYourContact, Converter={converters:BoolToVisibilityConverter}, ConverterParameter=true}"
+                                        Margin="8"
+                                        FontSize="14"
+                                        Tag="OrangeBrush"
+                                        Style="{StaticResource IconicButton}"
+                                        />
+
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--MessageList-->
+                <local:MessageList  x:Name="ScrollMessagesList"
+                                    Grid.Row="1"
+                                    Margin="40 0"
+                                    DataContext="{Binding MessageList}"/>
+
+                <!--Invite list-->
+                <Border Grid.Row="1"
+                        Visibility="{Binding ShowInviteList, Converter={converters:BoolToVisibilityConverter}}"
+                        Background="{StaticResource DarkBgBrush}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0 -5 20 0"
+                        CornerRadius="5">
+
+                    <local:ContactsList Width="400"
+                                        Margin="5"
+                                        DataContext="{Binding ContactsInviteList}"
+                                        Height="150"/>
+
+                </Border>
+
+                <!--AttachmentsList-->
+                <local:FilesList Grid.Row="2"
+                                MaxHeight="100"
+                                DataContext="{Binding ChatViewModel.AttachmentsList}"
+                                Padding="5 0"
+                                Margin="20 2"/>
+
+
+                <!--typing Bar -->
+            <Grid Grid.Row="3"
+                  Grid.ColumnSpan="2"
+                  Visibility="{Binding ShowTypeBar, Converter={converters:BoolToVisibilityConverter}}">
+
+                <Border VerticalAlignment="Top"
+                    Margin="20 0 20 20"
+                    MinHeight="45"
+                    MaxHeight="200"
+                    Background="{StaticResource DarkBgBrush}"
+                    CornerRadius="7">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            
+                            <ColumnDefinition Width="auto"/>
+
+
+                                <!--TextBox-->
+                            <ColumnDefinition Width="*"/>
+
+                            <!--Send button-->
+                            <ColumnDefinition Width="auto"/>
+
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button Margin="20 10 0 10"
+                                VerticalAlignment="Bottom"
+                                Content=""
+                                Tag="LightBlueBrush"
+                                Command="{Binding AttachFile}"
+                                FontSize="20"
+                                Style="{StaticResource IconicButton}"
+                                />
+
+                        <!--Typing box-->
+                        <TextBox Grid.Column="1"
+                             Name="MessageTextBox"
+                             Text="{Binding MessageContent, Mode=TwoWay,
+                             UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource MessageTypingBox}"
+                             TextWrapping="Wrap"
+                             />
+
+                        <!--Buttons-->
+                        <StackPanel Margin="20 0 30 0"
+                                    VerticalAlignment="Bottom" Grid.Column="2">
+
+                            <!--Send-->
+                            <Button Content=""
+                                Style="{StaticResource IconicButton}"
+                                FontSize="20"
+                                Command="{Binding SendMessage}"
+                                IsDefault="True"
+                                Tag="OrangeBrush"
+                                Margin="0 10 0 10"
+                                FontWeight="Black"
+                                Foreground="{StaticResource LightBlueBrush}"/>
+
+                        </StackPanel>
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+       
+        </Grid>
+
+
+        </Grid>
+
+    </Border>
+</UserControl>

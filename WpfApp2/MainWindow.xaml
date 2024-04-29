@@ -1,0 +1,122 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
+        xmlns:local="clr-namespace:WpfApp2"
+        xmlns:converters="clr-namespace:UI.UIPresenter.Converters"
+        xmlns:ioc="clr-namespace:UI.InversionOfControl"
+        mc:Ignorable="d"
+        
+        x:Name="Window"
+        
+        MinHeight="{Binding MinHeight}"
+        MinWidth="{Binding MinWidth}"
+        Title="MainWindow"
+        Height="600"
+        Width="1024"
+        WindowStyle="None" AllowsTransparency="True"
+        Background="Transparent" WindowStartupLocation="CenterScreen">
+
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome x:Name="WindowChrome"
+                      ResizeBorderThickness="{Binding BorderResizeThickness}"
+                      CaptionHeight="{Binding CaptionHeight}"
+                      CornerRadius="0"
+                      
+                      GlassFrameThickness="0"
+                       />
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+
+        <Style TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Window">
+                        <Border  Padding="{Binding OutherMarginThickness}"
+                                 >
+                            
+                            <Border Name="Border" Background="{StaticResource GrayBGBrush}" BorderThickness="{Binding WindowBorderSizeThickness, FallbackValue=4}" BorderBrush="{StaticResource DarkBgBrush}" CornerRadius="{Binding CornerRadius}">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" Opacity="0.2"/>
+                                    </Border.Effect>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        
+                                        <!--Caption Bar-->
+                                        <RowDefinition Height="{Binding CaptionHeightGridLeight, FallbackValue=15}"/>
+                                        
+                                        <!--Shadow-->
+                                        <RowDefinition Height="Auto"/>
+                                        
+                                        <!--Content-->
+                                        <RowDefinition Height="*"/>
+                                        
+                                    </Grid.RowDefinitions>
+                                    
+                                    <!--Caption Bar-->
+                                    <Grid Grid.Column="0" Panel.ZIndex="3" Background="{StaticResource DarkBgBrush}">
+                                        <Grid.ColumnDefinitions>
+                                            <!--Additional info-->
+                                            <ColumnDefinition Width="Auto"/>
+
+                                            <!--Program Name-->
+                                            <ColumnDefinition Width="*"/>
+
+                                            <!--Buttons-->
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <StackPanel Orientation="Horizontal">
+
+                                            <Label Content=""
+                                                   FontWeight="Black"
+                                                   FontSize="12"
+                                                   Style="{StaticResource Sumbol}"
+                                                   VerticalAlignment="Center"
+                                                   />
+
+                                            <Label Content="{Binding ConnectedToServer, Converter={converters:BoolToIsConnectedTextConverter}}"
+                                                   Foreground="{Binding ConnectedToServer, Converter={converters:BoolToIsConnectedColorConvertor}}"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="12"
+                                                   Margin="3 0 0 0"/>
+
+                                        </StackPanel>
+
+                                        <TextBlock Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="0 0 0 2" HorizontalAlignment="Center" Grid.Column="0" Foreground="AliceBlue">
+                                            <Run Foreground="{StaticResource LightBlueBrush}">
+                                                Reply
+                                            </Run>
+                                            Messenger
+                                        </TextBlock>
+                                        
+                                        <!--Window sstem buttons-->
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0 0 7 0">
+                                            <Button Command="{Binding ColapseWindow}" Style="{StaticResource WindowSystemButtons}"/>
+                                            <Button Command="{Binding MaximazeWindow}" Style="{StaticResource MaximizeWindowButton}"/>
+                                            <Button Command="{Binding CloseWindow}" Style="{StaticResource CloseWindowButton}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                       
+                                    <ContentPresenter Grid.Row="2"/>
+                                </Grid>
+                                </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </Window.Resources>
+
+    
+    <!--Main Content-->
+    <Frame Name="WindowPage" NavigationUIVisibility="Hidden" Content="{Binding ApplicationViewModel.ApplicationCurrentPage , Converter={converters:ToAppPageConverter}}"/>
+    
+</Window>

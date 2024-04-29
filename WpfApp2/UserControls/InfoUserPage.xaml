@@ -1,0 +1,471 @@
+﻿<UserControl x:Class="UI.UserControls.InfoUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            
+             xmlns:local="clr-namespace:UI.UserControls"
+             xmlns:viewModels="clr-namespace:UI.UIPresenter.ViewModels"
+             xmlns:converters="clr-namespace:UI.UIPresenter.Converters"
+             xmlns:commands="clr-namespace:UI.UIPresenter.ViewModels.Commands"
+             
+             x:Name="Page"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="974">
+    
+    <Border Background="{StaticResource GrayBGBrush}" CornerRadius="10">
+        
+        <Grid>
+            
+            <Grid.ColumnDefinitions>
+
+                <!--Additional info and options-->
+                <ColumnDefinition Width="*"/>
+                
+                <!--User info-->
+                <ColumnDefinition Width="auto"/>
+
+            </Grid.ColumnDefinitions>
+
+            <!--Option tabs-->
+            <TabControl Margin="20 80 10 80"
+                        Style="{DynamicResource TabControlStyle1}">
+                
+                <!--Contacts-->
+                <TabItem
+                    Style="{StaticResource CustomTabPanel}"
+                    Header="Contacts"
+                    Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}}">
+                    
+                    <local:ContactsList DataContext="{Binding ContactsList}" />
+                </TabItem>
+
+                <!--Create group-->
+                <TabItem  
+                    Style="{StaticResource CustomTabPanel}"
+                    Header="Create Group"
+                    Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}}">
+
+                    <StackPanel VerticalAlignment="Center" Margin="50 20">
+
+
+                        <TextBox
+                                 Tag="Group Name"
+                                 Name="GroupName"
+                                 Width="300"
+                                 HorizontalAlignment="Left"
+                                 Margin="0 0 0 30"
+                                 Style="{StaticResource RegularTextBox}"/>
+
+                        <Label Content="Chat Accessability"
+                               Style="{StaticResource RegularText}"
+                               Foreground="{StaticResource LightGrayBgBrush}"
+                               FontSize="15"
+                               Margin="-8 10 0 10"
+                               FontWeight="Medium"/>
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <RadioButton Content="Private"
+                                         Name="IsPrivateChat"
+                                         Tag="IsPrivateChat"
+                                         Margin="0 0 30 0"
+                                         Style="{StaticResource RadioButtonRegular}"/>
+
+                            <RadioButton Content="Public"
+                                         Name="IsPublicChat"
+                                         Tag="IsPublicChat"
+                                         Style="{StaticResource RadioButtonRegular}"/>
+
+                        </StackPanel>
+
+                        <Label Content="Chat Type"
+                               Style="{StaticResource RegularText}"
+                               Foreground="{StaticResource LightGrayBgBrush}"
+                               FontSize="15"
+                               Margin="-8 10 0 10"
+                               FontWeight="Medium"/>
+
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <RadioButton Content="Chat"
+                                         Name="IsChat"
+                                         Tag="IsChat"
+                                         Margin="0 0 30 0" Style="{StaticResource RadioButtonRegular}"/>
+
+                            <RadioButton Content="Channel"
+                                         Name="IsChannel"
+                                         Tag="IsChannel"
+                                         Style="{StaticResource RadioButtonRegular}"/>
+
+                        </StackPanel>
+
+
+                        <Label Margin="0 10 0 20"
+                               Style="{StaticResource RegularText}"
+                               Foreground="{StaticResource LightRedBrush}"
+                               Content="{Binding CreateGroupErrorMessage}"/>
+
+                        <Button HorizontalAlignment="Right"
+                                Width="150"
+                                VerticalAlignment="Bottom"
+                                Margin="0 20 0 0"
+                                Command="{Binding CreateGroup}"
+                                Height="30"
+                                Style="{StaticResource RegularButton}"
+                                Content="Create Goup">
+
+                            <Button.CommandParameter>
+
+                                <MultiBinding Converter="{converters:ParametersToArrayConverter}">
+
+                                    <Binding ElementName="GroupName" Path="Text"/>
+                                    <Binding ElementName="IsPrivateChat" Path="IsChecked"/>
+                                    <Binding ElementName="IsPublicChat" Path="IsChecked"/>
+                                    <Binding ElementName="IsChat" Path="IsChecked"/>
+                                    <Binding ElementName="IsChannel" Path="IsChecked"/>
+
+                                </MultiBinding>
+
+                            </Button.CommandParameter>
+
+                        </Button>
+
+
+
+                    </StackPanel>
+
+
+                </TabItem>
+
+                <!--Change user info-->
+                <TabItem  
+                    Style="{StaticResource CustomTabPanel}"
+                    Header="Change profile info"
+                    Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}}">
+
+                    <StackPanel Margin="50 20"
+                                VerticalAlignment="Center"
+                                >
+
+                        <!--Change name Field-->
+                        <TextBox Tag="Change Name"
+                                 Name="NameField"
+                                 Width="300"
+                                 HorizontalAlignment="Left"
+                                 Margin="0 0 0 30"
+                                 Style="{StaticResource RegularTextBox}"/>
+
+                        <TextBox Tag="Change E-mail"
+                                 Name="EmailField"
+                                 HorizontalAlignment="Left"
+                                 Width="300"
+                                 Margin="0 0 0 30"
+                                 Style="{StaticResource RegularTextBox}"/>
+
+                        <TextBox Tag="Change Bio"
+                                 Name="BioField"
+                                 HorizontalAlignment="Left"
+                                 Width="300"
+                                 Margin="0 0 0 10"
+                                 Style="{StaticResource RegularTextBox}"/>
+
+                        <Label Margin="0 0 0 20"
+                               Style="{StaticResource RegularText}"
+                               Foreground="{StaticResource LightRedBrush}"
+                               Content="{Binding ChangeUserInfoErrorMessage}"/>
+
+                        <Button HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Width="130"
+                                Margin="0 30 0 0"
+                                Command="{Binding ChangeUserInfo}"
+                                Height="30"
+                                Style="{StaticResource RegularButton}"
+                                Content="Save changes">
+
+                            <Button.CommandParameter>
+
+                                <MultiBinding Converter="{converters:ParametersToArrayConverter}">
+
+                                    <Binding ElementName="NameField" Path="Text"/>
+                                    <Binding ElementName="EmailField" Path="Text"/>
+                                    <Binding ElementName="BioField" Path="Text"/>
+
+                                </MultiBinding>
+                                
+                            </Button.CommandParameter>
+                            
+                        </Button>
+
+                    </StackPanel>
+
+
+                </TabItem>
+
+                <!--User Groups-->
+                <TabItem  Style="{StaticResource CustomTabPanel}"
+                          Header="Groups"
+                          Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}, ConverterParameter=true}">
+
+                    <local:GroupsList DataContext="{Binding GroupsList}"/>
+
+                </TabItem>
+
+                <!--Change password form-->
+                <TabItem 
+                    Style="{StaticResource CustomTabPanel}"
+                    Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}}"
+                    Header="Change password">
+
+
+                    <StackPanel Margin="50 20"
+                                VerticalAlignment="Center">
+
+                        <!--Change password Fields-->
+                        <PasswordBox Tag="Old Password"
+                                 Name="OldPassField"
+                                 Width="300"
+                                 HorizontalAlignment="Left"
+                                 Margin="0 0 0 30"
+                                 Style="{StaticResource RegularPasswordBox}"/>
+
+                        <PasswordBox Tag="New Password"
+                                 Name="NewPassField"
+                                 Width="300"
+                                 HorizontalAlignment="Left"
+                                 Margin="0 0 0 30"
+                                 Style="{StaticResource RegularPasswordBox}"/>
+
+                        <PasswordBox Tag="Repeat New Password"
+                                 Name="RepeatPassField"
+                                 HorizontalAlignment="Left"
+                                 Width="300"
+                                 Margin="0 0 0 10"
+                                 Style="{StaticResource RegularPasswordBox}"/>
+                        
+                        <Label Margin="0 0 0 20"
+                               Style="{StaticResource RegularText}"
+                               Foreground="{StaticResource LightRedBrush}"
+                               Content="{Binding ChangePassErrorMessage}"/>
+
+                        <Button HorizontalAlignment="Right"
+                                Width="150"
+                                VerticalAlignment="Bottom"
+                                Margin="0 30 0 0"
+                                CommandParameter="{Binding ElementName=Page}"
+                                Command="{Binding ChangeUserPass}"
+                                Height="30"
+                                Style="{StaticResource RegularButton}"
+                                Content="Change Password"/>
+
+
+                    </StackPanel>
+
+
+                </TabItem>
+            </TabControl>
+            
+            <!--User Info-->
+            <Border VerticalAlignment="Center"
+                    Grid.Column="1"
+                    Margin="20 0"
+                    Background="{StaticResource DarkBgBrush}"
+                    Width="240"
+                    CornerRadius="10">
+                
+                <StackPanel Margin="10 20" >
+                
+                    <!--User info Label-->
+                    <Border Background="{StaticResource GrayBGBrush}" CornerRadius="10" Width="150">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="30 2 30 2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                            <Label Content=""
+                                   FontWeight="Black"
+                                   Margin="0 0 10 0"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource Sumbol}"/>
+
+                            <Label Content="User Info"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource LightGrayBgBrush}"
+                                   Style="{StaticResource RegularText}"/>
+
+                        </StackPanel>
+                    </Border>
+                
+                    <!--Profile Photo-->
+                    <Border 
+                            Margin="0 20 0 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            x:Name="ProfilePhotoMask"
+                            CornerRadius="50"
+                            BorderThickness="5"
+                            BorderBrush="{StaticResource GrayBGBrush}"
+                            >
+
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding ChangeProfilePhoto}"/>
+                        </Border.InputBindings>
+                        <Grid VerticalAlignment="Center"
+                              Width="100"
+                              Height="100"
+                              HorizontalAlignment="Center">
+                            <Grid.Clip>
+                                <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
+                            </Grid.Clip>
+                            <Image Source="{Binding ProfilePhoto}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                            
+                        </Grid>
+                    </Border>
+
+                    <!--User name-->
+                    <Label Style="{StaticResource RegularText}"
+                           Content="{Binding UserName}"
+                           Margin="0 5 0 0"
+                           HorizontalAlignment="Center"
+                           FontSize="15"
+                           Foreground="{StaticResource LightGrayBgBrush}"/>
+
+                    <!--Status-->
+                    <Label Style="{StaticResource RegularText}"
+                           Content="{Binding Online, Converter={converters:DateToTextConverter}}"
+                           Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}, ConverterParameter=true}"
+                           HorizontalAlignment="Center"
+                           Margin="0 -10 0 0"
+                           FontSize="10"
+                           Foreground="{StaticResource MiddleGrayBgBrush}"/>
+                    
+                    <!--buttons-->
+                    <StackPanel Margin="0 10 0 0"
+                                Visibility="{Binding IsYourAccaunt, Converter={converters:BoolToVisibilityConverter}, ConverterParameter=true}"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                        
+                        <!--Add to contact list-->
+                        <Button Content=""
+                                ToolTip="Add to the contacts list"
+                                Command="{x:Static commands:CommonCommands.AddToContactList}"
+                                CommandParameter="{Binding UserInfo}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontWeight="Black"
+                                Visibility="{Binding IsYourContact, Converter={converters:BoolToVisibilityConverter}, ConverterParameter=true}"
+                                Margin="8"
+                                FontSize="14"
+                                Tag="OrangeBrush"
+                                Style="{StaticResource IconicButton}"
+                        />
+                        
+                        <!--Remove from contact list-->
+                        <Button Content=""
+                                ToolTip="Remove from the contacts list"
+                                HorizontalAlignment="Center"
+                                Visibility="{Binding IsYourContact, Converter={converters:BoolToVisibilityConverter}}"
+                                VerticalAlignment="Center"
+                                Command="{x:Static commands:CommonCommands.DeleteFromContactList}"
+                                CommandParameter="{Binding UserInfo}"
+                                Margin="8"
+                                FontSize="14"
+                                Tag="LightRedBrush"
+                                Style="{StaticResource IconicButton}"
+                                />
+
+                        <!--Start Chat-->
+                        <Button Content=""
+                                Command="{x:Static commands:CommonCommands.StartChat}"
+                                CommandParameter="{Binding UserInfo}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Margin="8"
+                                ToolTip="Start Chat"
+                                FontSize="14"
+                                FontWeight="Black"
+                                Tag="LightBlueBrush"
+                                Style="{StaticResource IconicButton}"
+                                />
+                        
+                    </StackPanel>
+
+                    <!--Bio-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 10 0 0"
+                                HorizontalAlignment="Center">
+
+                        <Border Background="{StaticResource GrayBGBrush}"
+                                CornerRadius="20"
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center">
+                            
+                            <Label Content=""
+                                   FontSize="12"
+                                   Foreground="{StaticResource LightBlueBrush}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource Sumbol}"/>
+                        </Border>
+                        
+                        <Border Background="{StaticResource GrayBGBrush}"
+                                CornerRadius="5"
+                                Width="180">
+      
+                                <TextBlock Text="{Binding Bio}"
+                                           VerticalAlignment="Center"
+                                           Margin="10 5"
+                                           TextWrapping="Wrap"
+                                           FontSize="10"
+                                           Foreground="{StaticResource LightGrayBgBrush}"/>
+
+                        </Border>
+
+                    </StackPanel>
+                    
+                    <!--Email-->
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0 10 0 0"
+                                HorizontalAlignment="Center">
+
+                        <Border Background="{StaticResource GrayBGBrush}"
+                                CornerRadius="20"
+                                Margin="0 0 10 0"
+                                VerticalAlignment="Center">
+
+                            <Label Content=""
+                                   FontSize="12"
+                                   Foreground="{StaticResource LightBlueBrush}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource Sumbol}"/>
+                        </Border>
+                        
+                        <Border Background="{StaticResource GrayBGBrush}"
+                                CornerRadius="5"
+                                Width="180">
+      
+                                <TextBlock Text="{Binding Email}"
+                                           VerticalAlignment="Center"
+                                           Margin="10 5"
+                                           TextWrapping="Wrap"
+                                           FontSize="10"
+                                           Foreground="{StaticResource LightGrayBgBrush}"/>
+
+                        </Border>
+
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Border>
+
+        </Grid>
+        
+    </Border>
+</UserControl>
